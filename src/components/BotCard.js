@@ -9,7 +9,16 @@ const botTypeClasses = {
   Captain: "icon star",
 };
 
-function BotCard({ bot }) {
+function BotCard({ bot, setBotArmy }) {
+  const dischargeBot = async (bot) => {
+    let request = await fetch(`http://localhost:8002/bots/${bot.id}`, {
+      method: 'DELETE'
+    })
+    setBotArmy((prevState) => {
+      return [...prevState.filter((u) => { return u.id !== bot.id })]
+    })
+  }
+
   return (
     <div className="ui column">
       <div
@@ -47,8 +56,8 @@ function BotCard({ bot }) {
             <div className="ui center aligned segment basic">
               <button
                 className="ui mini red button"
-                onClick={() =>
-                  console.log("add code to connect event listener")
+                onClick={() => {dischargeBot(bot)}
+                  
                 }
               >
                 x
